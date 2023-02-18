@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/ceph/go-ceph/internal/log"
+	"github.com/RocketNodeInc/go-ceph/internal/log"
 )
 
 const (

@@ -1,4 +1,4 @@
-module github.com/ceph/go-ceph
+module github.com/RocketNodeInc/go-ceph
 
 go 1.17
 
