@@ -448,6 +448,7 @@ func TestGetGlobalMirrorStatusMirroredPool(t *testing.T) {
 			assert.Contains(t, ss2.Description, "replaying,")
 			assert.Greater(t, ss2.LastUpdate, int64(0))
 			assert.True(t, ss2.Up)
+			testDescriptionReplayStatus(t, ss2)
 		}
 	}()
 
@@ -491,6 +492,7 @@ func TestGetGlobalMirrorStatusMirroredPool(t *testing.T) {
 			assert.Contains(t, ls.Description, "replaying,")
 			assert.Greater(t, ls.LastUpdate, int64(0))
 			assert.True(t, ls.Up)
+			testDescriptionReplayStatus(t, ls)
 
 			assert.Equal(t, ls, gms.SiteStatuses[0])
 
@@ -769,7 +771,6 @@ func TestMirrorBootstrapToken(t *testing.T) {
 		err = SetMirrorMode(ioctx2, MirrorModeImage)
 		require.NoError(t, err)
 
-		fmt.Printf("TOKEN: %s\n", string(token))
 		err = ImportMirrorPeerBootstrapToken(
 			ioctx2, MirrorPeerDirectionRxTx, token)
 		assert.NoError(t, err)
@@ -1075,7 +1076,6 @@ func TestMirrorImageInstanceIDLists(t *testing.T) {
 
 	t.Run("getInstanceIDSlice", func(t *testing.T) {
 		lst, err := MirrorImageInstanceIDList(ioctx, "", 0)
-		fmt.Print(lst)
 		assert.NoError(t, err)
 		assert.Len(t, lst, 5)
 		for i := 1; i < len(lst); i++ {

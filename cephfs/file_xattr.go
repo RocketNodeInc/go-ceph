@@ -110,7 +110,7 @@ func (f *File) GetXattr(name string) ([]byte, error) {
 //
 // Implements:
 //
-//	int ceph_flistxattr(struct ceph_mount_info *cmount, int fd, char *List, size_t size);
+//	int ceph_flistxattr(struct ceph_mount_info *cmount, int fd, char *list, size_t size);
 func (f *File) ListXattr() ([]string, error) {
 	if err := f.validate(); err != nil {
 		return nil, err

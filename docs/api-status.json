@@ -323,8 +323,8 @@
       {
         "name": "MountInfo.MakeDirs",
         "comment": "MakeDirs creates multiple directories at once.\n\nImplements:\n\n\tint ceph_mkdirs(struct ceph_mount_info *cmount, const char *path, mode_t mode);\n",
-        "added_in_version": "$NEXT_RELEASE",
-        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
       }
     ]
   },
@@ -344,10 +344,6 @@
       {
         "name": "FSAdmin.CancelClone",
         "comment": "CancelClone stops the background processes that populate a clone.\nCancelClone does not delete the clone.\n\nSimilar To:\n ceph fs clone cancel <volume> --group_name=<group> <clone>\n"
-      },
-      {
-        "name": "New",
-        "comment": "New creates an FSAdmin automatically based on the default ceph\nconfiguration file. If more customization is needed, create a\n*rados.Conn as you see fit and use NewFromConn to use that\nconnection with these administrative functions.\n"
       },
       {
         "name": "NewFromConn",
@@ -516,7 +512,14 @@
         "became_stable_version": "v0.18.0"
       }
     ],
-    "deprecated_api": [],
+    "deprecated_api": [
+      {
+        "name": "New",
+        "comment": "New creates an FSAdmin automatically based on the default ceph\nconfiguration file. If more customization is needed, create a\n*rados.Conn as you see fit and use NewFromConn to use that\nconnection with these administrative functions.\n\nDeprecated: Use NewFromConn instead of New. The New function does not expose\nthe rados connection and therefore can not be deterministically cleaned up.\n",
+        "deprecated_in_version": "v0.21.0",
+        "expected_remove_version": "v0.24.0"
+      }
+    ],
     "preview_api": [
       {
         "name": "FSAdmin.GetMetadata",
@@ -577,6 +580,24 @@
         "comment": "ListSnapshotMetadata lists custom metadata (key-value pairs) set on the subvolume\nsnapshot in a volume belonging to an optional subvolume group.\n\nSimilar To:\n ceph fs subvolume snapshot metadata ls <vol_name> <sub_name> <snap_name> [--group_name <subvol_group_name>]\n",
         "added_in_version": "v0.20.0",
         "expected_stable_version": "v0.22.0"
+      },
+      {
+        "name": "FSAdmin.PinSubVolume",
+        "comment": "PinSubVolume pins subvolume to ranks according to policies. A valid pin\nsetting value depends on the type of pin as described in the docs from\nhttps://docs.ceph.com/en/latest/cephfs/multimds/#cephfs-pinning and\nhttps://docs.ceph.com/en/latest/cephfs/multimds/#setting-subtree-partitioning-policies\n\nSimilar To:\n\n\tceph fs subvolume pin <vol_name> <sub_name> <pin_type> <pin_setting>\n",
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
+      },
+      {
+        "name": "FSAdmin.PinSubVolumeGroup",
+        "comment": "PinSubVolumeGroup pins subvolume to ranks according to policies. A valid pin\nsetting value depends on the type of pin as described in the docs from\nhttps://docs.ceph.com/en/latest/cephfs/multimds/#cephfs-pinning and\nhttps://docs.ceph.com/en/latest/cephfs/multimds/#setting-subtree-partitioning-policies\n\nSimilar To:\n\n\tceph fs subvolumegroup pin <vol_name> <group_name> <pin_type> <pin_setting>\n",
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
+      },
+      {
+        "name": "FSAdmin.FetchVolumeInfo",
+        "comment": "FetchVolumeInfo fetches the information of a CephFS volume.\n\nSimilar To:\n\n\tceph fs volume info <vol_name>\n",
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
       }
     ]
   },
@@ -1786,6 +1807,66 @@
         "comment": "MigrationStatus retrieve status of a live migration\nfor the specified image.\n\nImplements:\n int rbd_migration_status(rados_ioctx_t ioctx,\n                          const char *image_name,\n                          rbd_image_migration_status_t *status,\n                          size_t status_size);\n",
         "added_in_version": "v0.20.0",
         "expected_stable_version": "v0.22.0"
+      },
+      {
+        "name": "SiteMirrorImageStatus.UnmarshalDescriptionJSON",
+        "comment": "UnmarshalDescriptionJSON parses an embedded JSON string that may be found in\nthe description of the SiteMirrorImageStatus. It will store the result in\nthe value pointed to by v.  If no embedded JSON string is found an\nErrNotExist error is returned. An error may also be returned if the contents\ncan not be parsed.\n",
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
+      },
+      {
+        "name": "SiteMirrorImageStatus.DescriptionReplayStatus",
+        "comment": "DescriptionReplayStatus parses a MirrorDescriptionReplayStatus result out of\nthe image status description field if available. If the embedded status JSON\nis not found or fails to parse and error will be returned.\n",
+        "added_in_version": "v0.21.0",
+        "expected_stable_version": "v0.23.0"
+      },
+      {
+        "name": "AddMirrorPeerSite",
+        "comment": "AddMirrorPeerSite adds a peer site to the list of existing sites.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "RemoveMirrorPeerSite",
+        "comment": "RemoveMirrorPeerSite removes the site with the provided uuid.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "GetAttributesMirrorPeerSite",
+        "comment": "GetAttributesMirrorPeerSite fetches the list of key,value pair of attributes of a peer site.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "SetAttributesMirrorPeerSite",
+        "comment": "SetAttributesMirrorPeerSite sets the attributes for the site with the given uuid.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "ListMirrorPeerSite",
+        "comment": "ListMirrorPeerSite returns the list of peer sites.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "SetMirrorPeerSiteClientName",
+        "comment": "SetMirrorPeerSiteClientName sets the client name of a mirror peer site.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "SetMirrorPeerSiteName",
+        "comment": "SetMirrorPeerSiteName sets the site name of a mirror peer site.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
+      },
+      {
+        "name": "SetMirrorPeerSiteDirection",
+        "comment": "SetMirrorPeerSiteDirection sets the direction of a mirror peer site.\n",
+        "added_in_version": "$NEXT_RELEASE",
+        "expected_stable_version": "$NEXT_RELEASE_STABLE"
       }
     ]
   },

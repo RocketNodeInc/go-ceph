@@ -97,7 +97,7 @@ func (mount *MountInfo) GetXattr(path, name string) ([]byte, error) {
 //
 // Implements:
 //
-//	int ceph_listxattr(struct ceph_mount_info *cmount, const char *path, char *List, size_t size);
+//	int ceph_listxattr(struct ceph_mount_info *cmount, const char *path, char *list, size_t size);
 func (mount *MountInfo) ListXattr(path string) ([]string, error) {
 	if err := mount.validate(); err != nil {
 		return nil, err
@@ -234,7 +234,7 @@ func (mount *MountInfo) LgetXattr(path, name string) ([]byte, error) {
 //
 // Implements:
 //
-//	int ceph_llistxattr(struct ceph_mount_info *cmount, const char *path, char *List, size_t size);
+//	int ceph_llistxattr(struct ceph_mount_info *cmount, const char *path, char *list, size_t size);
 func (mount *MountInfo) LlistXattr(path string) ([]string, error) {
 	if err := mount.validate(); err != nil {
 		return nil, err
